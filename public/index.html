@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Static html</title>
+    <style>
+    .node{
+        width: 100%;
+        display: flex;
+    }
+    .client , .result{
+        width: 50%;
+    }
+    </style>
+</head>
+<body>
+    <h1>hello express</h1>
+    <div class="node">
+        <div class="client">
+            <div>
+                <input type="text" id="text">
+                <button type="button" id="submit">submit</button>
+            </div>
+        </div>
+        <div class="result">
+            <button id="get_data">get data</button>
+            <div class="text-all">
+
+            </div>
+        </div>
+    </div>
+    <script
+  src="http://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+    <script>
+        $('#submit').on('click',function(){
+            var text = $('#text').val();
+
+            fetch('/set_text' , {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({text:text})
+            })
+            $('#text').val('');
+        })
+
+        $('#get_data').on('click',function(){
+            $('.text-all').text('');
+             fetch('/get_data')
+            .then((res)=>res.json())
+            .then((data)=>{
+                console.log(data);
+                el = '<h2></h2>'
+
+                data.text.forEach(element => {
+                    let text=$(el).append(element);
+                    $('.text-all').append(text);
+                });
+            });
+        });
+
+
+        
+
+        //get query in server
+        // fetch('/test.json')
+        // .then((res)=>res.json())
+        // .then((data)=>{
+        //     console.log(data)
+        // });
+
+        // fetch('/set_test' , {
+        //     method: 'POST',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({a:1,b:2})
+        // }).then((res)=>res.json())
+        // .then((data)=>{
+        //     console.log(data)
+        // });
+    </script>
+</body>
+</html>
